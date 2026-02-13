@@ -4,6 +4,16 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO para la creación y actualización de hoteles.
+ * Contiene las validaciones necesarias para los datos de entrada.
+ *
+ * @param nombre Nombre del hotel. Obligatorio.
+ * @param ubicacion Ubicación del hotel. Obligatoria.
+ * @param descripcion Descripción opcional del hotel.
+ * @param estrellas Clasificación del hotel (1-5). Obligatorio.
+ * @param precioNoche Precio por noche. Obligatorio y mayor a 10.
+ */
 public record HotelRequest(
 
         @NotBlank(message = "El nombre del hotel es obligatorio")

@@ -11,10 +11,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Configuración de seguridad de la aplicación.
+ * Define las reglas de autorización y autenticación.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Configura la cadena de filtros de seguridad.
+     *
+     * @param http Objeto HttpSecurity para configurar la seguridad web.
+     * @return SecurityFilterChain configurado.
+     * @throws Exception si ocurre un error durante la configuración.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -31,6 +42,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Define un punto de entrada de autenticación personalizado para manejar errores 401.
+     *
+     * @return AuthenticationEntryPoint personalizado.
+     */
     @Bean
     public AuthenticationEntryPoint customAuthenticationEntryPoint() {
         return (request, response, e) -> {
