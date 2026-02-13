@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+/**
+ * Servicio para gestionar la lógica de negocio relacionada con las reservas.
+ */
 @Service
 @RequiredArgsConstructor
 public class ReservaService {
@@ -27,6 +30,11 @@ public class ReservaService {
     private final HotelRepository hotelRepository;
     private final ClienteRepository clienteRepository;
 
+    /**
+     * Recupera todas las reservas registradas.
+     *
+     * @return Lista de objetos ReservaResponse que representan todas las reservas.
+     */
     @Transactional(readOnly = true)
     public List<ReservaResponse> findAll() {
         return reservaRepository.findAll().stream()
@@ -34,6 +42,13 @@ public class ReservaService {
                 .toList();
     }
 
+    /**
+     * Busca una reserva por su ID.
+     *
+     * @param id El ID de la reserva a buscar.
+     * @return Objeto ReservaResponse con los detalles de la reserva.
+     * @throws ReservaNoEncontradaException si no se encuentra una reserva con el ID proporcionado.
+     */
     @Transactional(readOnly = true)
     public ReservaResponse findById(Long id) {
         return reservaRepository.findById(id)
@@ -41,6 +56,16 @@ public class ReservaService {
                 .orElseThrow(() -> new ReservaNoEncontradaException("Reserva con id " + id + " no encontrada"));
     }
 
+    /**
+     * Crea una nueva reserva en el sistema.
+     * Valida que la fecha de salida sea posterior a la de entrada y calcula el precio total.
+     *
+     * @param request Objeto ReservaRequest con la información de la nueva reserva.
+     * @return Objeto ReservaResponse con los detalles de la reserva creada.
+     * @throws IllegalArgumentException si la fecha de salida no es posterior a la de entrada.
+     * @throws HotelNotFoundException si el hotel especificado no existe.
+     * @throws ClienteNotFoundException si el cliente especificado no existe.
+     */
     @Transactional
     public ReservaResponse create(ReservaRequest request) {
         if (!request.fechaSalida().isAfter(request.fechaEntrada())) {
@@ -70,6 +95,12 @@ public class ReservaService {
     }
 
 
+    /**
+     * Elimina una reserva del sistema.
+     *
+     * @param id El ID de la reserva a eliminar.
+     * @throws ReservaNoEncontradaException si la reserva no existe.
+     */
     @Transactional
     public void delete(Long id) {
         if (!reservaRepository.existsById(id)) {
@@ -78,6 +109,12 @@ public class ReservaService {
         reservaRepository.deleteById(id);
     }
 
+    /**
+     * Convierte una entidad Reserva a un DTO ReservaResponse.
+     *
+     * @param reserva La entidad Reserva a convertir.
+     * @return El objeto ReservaResponse resultante.
+     */
     private ReservaResponse mapToResponse(Reserva reserva) {
         return new ReservaResponse(
                 reserva.getId(),

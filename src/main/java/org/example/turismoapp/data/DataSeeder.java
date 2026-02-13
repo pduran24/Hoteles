@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Componente encargado de cargar datos iniciales en la base de datos al arrancar la aplicación.
+ * Útil para pruebas y desarrollo.
+ */
 @Component
 @Slf4j
 public class DataSeeder implements CommandLineRunner {
@@ -18,11 +22,24 @@ public class DataSeeder implements CommandLineRunner {
     private final HotelRepository hotelRepository;
     private final UserRepository userRepository;
 
+    /**
+     * Constructor con inyección de dependencias.
+     *
+     * @param hotelRepository Repositorio de hoteles.
+     * @param userRepository Repositorio de usuarios.
+     */
     public DataSeeder(HotelRepository hotelRepository, UserRepository userRepository) {
         this.hotelRepository = hotelRepository;
         this.userRepository = userRepository;
     }
 
+    /**
+     * Método que se ejecuta al iniciar la aplicación.
+     * Carga hoteles y usuarios si las tablas están vacías.
+     *
+     * @param args Argumentos de línea de comandos.
+     * @throws Exception si ocurre algún error durante la carga de datos.
+     */
     @Override
     public void run(String... args) throws Exception {
         // 1. Carga de Hoteles (Si está vacía)
@@ -76,6 +93,16 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
+    /**
+     * Método auxiliar para construir objetos Hotel.
+     *
+     * @param nombre Nombre del hotel.
+     * @param ubicacion Ubicación del hotel.
+     * @param descripcion Descripción del hotel.
+     * @param estrellas Número de estrellas.
+     * @param precio Precio por noche como String.
+     * @return Objeto Hotel construido.
+     */
     private Hotel buildHotel(String nombre, String ubicacion, String descripcion, Integer estrellas, String precio) {
         Hotel hotel = new Hotel();
         hotel.setNombre(nombre);

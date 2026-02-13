@@ -8,6 +8,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Entidad que representa un cliente en el sistema.
+ * Mapea a la tabla "clientes" en la base de datos.
+ */
 @Table(name = "clientes")
 @Entity
 @AllArgsConstructor
@@ -15,11 +19,21 @@ import java.util.List;
 @Getter @Setter
 public class Cliente {
 
+    /**
+     * Identificador único del cliente.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  id;
+
+    /**
+     * Nombre completo del cliente.
+     */
     private String nombre;
 
+    /**
+     * Lista de reservas realizadas por este cliente.
+     */
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas;
 }

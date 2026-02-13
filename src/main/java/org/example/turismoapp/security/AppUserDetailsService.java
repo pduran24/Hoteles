@@ -11,12 +11,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Servicio para cargar los detalles del usuario desde la base de datos para la autenticación.
+ */
 @Service
 @RequiredArgsConstructor
 public class AppUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    /**
+     * Carga los detalles del usuario por su nombre de usuario.
+     *
+     * @param username Nombre de usuario a buscar.
+     * @return UserDetails con la información del usuario.
+     * @throws UsernameNotFoundException si el usuario no se encuentra.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
