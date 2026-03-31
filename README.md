@@ -35,3 +35,4 @@ El proyecto está completamente dockerizado. No necesitas instalar Java, Maven n
 
 ```bash
 docker compose up -d --build
+
